@@ -1,2 +1,0 @@
-package setter_getter
-
