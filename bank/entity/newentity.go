@@ -1,17 +1,17 @@
 package entity
 
-func newAccount() {
+func NewAccount() {
 
 }
 
-func newLoan() {
+func NewLoan() {
 
 }
 
-func newTransaction() {
+func NewTransaction() {
 
 }
 
-func newLoanTransaction() {
+func NewLoanTransaction() {
 
 }
