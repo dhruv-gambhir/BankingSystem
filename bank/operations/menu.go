@@ -2,7 +2,6 @@ package operations
 
 import (
 	"fmt"
-	"github.com/main/bank/entity"
 )
 
 func Menu() {
@@ -10,7 +9,7 @@ func Menu() {
 	var choice int
 	fmt.Println("Welcome to DiGi Bank")
 
-	for (choice!=5) {
+	for choice != 5 {
 		fmt.Println("What would you like to do?")
 		fmt.Println("1. Manage Account")
 		fmt.Println("2. Manage Loan")
@@ -25,11 +24,10 @@ func Menu() {
 		case 2:
 			ManageLoan()
 		case 3:
-			entity.NewAccount()
+			NewAccount()
 		case 4:
-			entity.NewLoan()
+			NewLoan()
 		case 5:
-			break
 		default:
 			fmt.Println("Invalid choice")
 		}

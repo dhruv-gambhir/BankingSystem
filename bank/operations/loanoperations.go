@@ -39,3 +39,9 @@ func ManageLoan() {
 	fmt.Println("Exiting loan management menu")
 	}
 }
+
+func NewLoan() {
+
+	
+
+}

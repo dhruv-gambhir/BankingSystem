@@ -1,14 +1,14 @@
 package main
 
 import (
+	op "github.com/main/bank/operations"
 	pg "github.com/main/bank/postgres"
-	en "github.com/main/bank/entity"
 )
 
 func main() {
 
 	pg.Connect()
-	
+	op.Menu()
 
 	/*
 		router := gin.Default()

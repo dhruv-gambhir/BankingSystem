@@ -4,9 +4,10 @@ type account struct {
 	tablename struct{} `sql:"accounts"`
 	Bank      string   `json:"bank" sql:"bank"`
 	Branch    string   `json:"branch" sql:"branch"`
-	Id        int64    `json:"id" sql:"id"`
+	ID        int64    `json:"id" sql:"id"`
 	Name      string   `json:"name" sql:"name"`
-	Pin       string   `json:"pin" sql:"pin"`
+	Pin       int      `json:"pin" sql:"pin"`
+	Balance   float64  `json:"balance" sql:"balance"`
 }
 
 type loan struct {
