@@ -1,15 +1,21 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	op "github.com/main/bank/operations"
-
+	pg "github.com/main/bank/postgres"
+	en "github.com/main/bank/entity"
 )
 
 func main() {
 
-	router := gin.Default()
-	router.GET("/balance", op.Menu)
+	pg.Connect()
 	
-	router.Run("localhost:8080")
+
+	/*
+		router := gin.Default()
+		router.GET("/bank", func(c *gin.Context) {
+			c.JSON(http.StatusOK, gin.H{"data": "hello world"})
+		})
+
+		router.Run(":8080")
+	*/
 }

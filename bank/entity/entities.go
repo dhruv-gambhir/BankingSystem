@@ -1,33 +1,33 @@
 package entity
 
 type account struct {
-	tablename struct{} `db:"accounts"`
-	Bank      string   `json:"bank" db:"bank"`
-	Branch    string   `json:"branch" db:"branch"`
-	Id        int64    `json:"id" db:"id"`
-	Name      string   `json:"name" db:"name"`
-	Pin       string   `json:"pin" db:"pin"`
+	tablename struct{} `sql:"accounts"`
+	Bank      string   `json:"bank" sql:"bank"`
+	Branch    string   `json:"branch" sql:"branch"`
+	Id        int64    `json:"id" sql:"id"`
+	Name      string   `json:"name" sql:"name"`
+	Pin       string   `json:"pin" sql:"pin"`
 }
 
 type loan struct {
-	tablename         struct{} `db:"loans"`
-	LoanID            int64    `json:"id" db:"id"`
-	Amount            int64    `json:"amount" db:"amount"`
-	Term              int64    `json:"term" db:"term"`
-	Installments      int64    `json:"installments" db:"installments"`
-	AmountPayed       int64    `json:"payed" db:"payed"`
-	InstallmentsPayed int64    `json:"installments_payed" db:"installments_payed"`
+	tablename         struct{} `sql:"loans"`
+	LoanID            int64    `json:"id" sql:"id"`
+	Amount            int64    `json:"amount" sql:"amount"`
+	Term              int64    `json:"term" sql:"term"`
+	Installments      int64    `json:"installments" sql:"installments"`
+	AmountPayed       int64    `json:"payed" sql:"payed"`
+	InstallmentsPayed int64    `json:"installments_payed" sql:"installments_payed"`
 }
 
 type transaction struct {
-	tablename struct{} `db:"transactions"`
-	LoanID    int64    `json:"loan_id" db:"loan_id"`
-	Amount    int64    `json:"amount" db:"amount"`
+	tablename struct{} `sql:"transactions"`
+	ID        int64    `json:"id" sql:"id"`
+	Amount    int64    `json:"amount" sql:"amount"`
 }
 
 type loan_transaction struct {
-	tablename struct{} `db:"loan_transactions"`
-	ID        int64    `json:"id" db:"id"`
-	Amount    int64    `json:"amount" db:"amount"`
-	LoanID    int64    `json:"loan_id" db:"loan_id"`
+	tablename struct{} `sql:"loan_transactions"`
+	ID        int64    `json:"id" sql:"id"`
+	Amount    int64    `json:"amount" sql:"amount"`
+	LoanID    int64    `json:"loan_id" sql:"loan_id"`
 }
