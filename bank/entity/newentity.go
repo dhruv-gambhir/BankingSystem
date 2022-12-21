@@ -49,7 +49,7 @@ func NewLoanTransactionTable(db *pg.DB) {
 
 }
 
-func NewAccount(db *pg.DB, accountID int64, pin int, name string, balance float64, bank string, branch string) {
+func NewAccount(db *pg.DB, accountID int64, pin int64, name string, balance float64, bank string, branch string) {
 	var acc account
 	acc.ID = accountID
 	acc.Pin = pin
@@ -60,5 +60,51 @@ func NewAccount(db *pg.DB, accountID int64, pin int, name string, balance float6
 	insertErr := db.Insert(&acc)
 	if insertErr != nil {
 		fmt.Println("Error inserting into table")
+	} else {
+		fmt.Println("Account inserted in Table")
+	}
+}
+
+func NewLoan(db *pg.DB, loanID int64, amount float64, term int64, ampi float64, installments int64) {
+	var loan loan
+	loan.LoanID = loanID
+	loan.Amount = amount
+	loan.Term = term
+	loan.AmountPerInstallment = ampi
+	loan.Installments = installments
+	loan.AmountPayed = float64(0)
+	loan.InstallmentsPayed = int64(0)
+
+	insertErr := db.Insert(&loan)
+	if insertErr != nil {
+		fmt.Println("Error inserting into table")
+	} else {
+		fmt.Println("Loan inserted in Table")
+	}
+}
+
+func NewTransaction(db *pg.DB, transactionID int64, amount float64, accountID int64) {
+	var transaction transaction
+	transaction.ID = transactionID
+	transaction.Amount = amount
+	transaction.ID = accountID
+	insertErr := db.Insert(&transaction)
+	if insertErr != nil {
+		fmt.Println("Error inserting into table")
+	} else {
+		fmt.Println("Transaction inserted in Table")
+	}
+}
+
+func NewLoanTransaction(db *pg.DB, installments int64, amount float64, loanID int64) {
+	var transaction loan_transaction
+	transaction.Installments = installments
+	transaction.Amount = amount
+	transaction.LoanID = loanID
+	insertErr := db.Insert(&transaction)
+	if insertErr != nil {
+		fmt.Println("Error inserting into table", insertErr)
+	} else {
+		fmt.Println("Loan Transaction inserted in Table")
 	}
 }

@@ -82,7 +82,7 @@ func NewAccount() {
 	var branchName string
 	var id int64
 	var name string
-	var pin int
+	var pin int64
 	var balance float64
 
 	//select bank
