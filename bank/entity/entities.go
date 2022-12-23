@@ -14,8 +14,8 @@ type Loan struct {
 	tablename            struct{} `sql:"loans"`
 	LoanID               int64    `json:"id" sql:"id"`
 	Amount               float64  `json:"amount" sql:"amount"`
-	Term                 int64    `json:"term" sql:"term_in_months"`
-	AmountPerInstallment float64  `json:"amount_per_installment" sql:"amount_per_installment"`
+	Term                 int64    `json:"term" sql:"term"`
+	AmountPerInstallment float64  `json:"ampi" sql:"ampi"`
 	Installments         int64    `json:"installments" sql:"installments"`
 	AmountPayed          float64  `json:"payed" sql:"payed"`
 	InstallmentsPayed    int64    `json:"installments_payed" sql:"installments_payed"`

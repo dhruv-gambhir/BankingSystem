@@ -8,15 +8,12 @@ import (
 	en "github.com/main/bank/entity"
 )
 
-/*
-type INPUT struct {
-	Choice string `json:"choice"`
+type LOGIN struct {
+	Id  int64 `json:"id"`
+	Pin int64 `json:"pin"`
 }
 
-var input INPUT
-var choice int
-*/
-
+var login LOGIN
 var newAccount en.Account
 var newLoan en.Loan
 var newTransaction en.Transaction
@@ -31,27 +28,29 @@ func Menu() {
 			"message": "Welcome to DiGi Bank \n What would you like to do? \n 1. Manage Account \n 2. Manage Loan \n 3. New Account \n 4. New Loan",
 		})
 	})
-	/*
-		router.POST("/menu/choice", func(c *gin.Context) {
-			if err := c.BindJSON(&input); err != nil {
-				return
-			}
-			choice, _ = strconv.Atoi(input.Choice)
-			c.IndentedJSON(http.StatusCreated, input)
-		})
 
-		router.GET("/menu/getchoice", func(c *gin.Context) {
-			c.JSON(200, gin.H{
-				"message": choice,
-			})
-		})
-	*/
+	//new transaction
 
-	//manage account
 	router.GET("menu/function1", func(c *gin.Context) {
 		c.JSON(200, gin.H{
-			"message": "Welcome to the manage account menu ",
+			"message": "Welcome to the new transaction menu ",
 		})
+	})
+
+	router.POST("/menu/function1/login", func(c *gin.Context) {
+		if err := c.BindJSON(&login); err != nil {
+			return
+		}
+		if CheckLogin(&login) != 0 {
+			c.JSON(200, gin.H{
+				"message": "Login Successful",
+			})
+		} else {
+			c.JSON(200, gin.H{
+				"message": "Login Failed",
+			})
+			c.IndentedJSON(http.StatusCreated, login)
+		}
 	})
 
 	router.POST("/menu/function1/set", func(c *gin.Context) {
@@ -59,17 +58,23 @@ func Menu() {
 			return
 		}
 		NewTransaction(&newTransaction)
-		c.IndentedJSON(http.StatusCreated, newAccount)
+		c.IndentedJSON(http.StatusCreated, newTransaction)
 	})
-	ManageAccount()
 
 	//manage loan
 	router.GET("menu/function2", func(c *gin.Context) {
 		c.JSON(200, gin.H{
-			"message": "Welcome to the manage loan menu ",
+			"message": "Welcome to the new loan transaction menu ",
 		})
 	})
-	ManageLoan()
+	router.POST("/menu/function2/set", func(c *gin.Context) {
+		if err := c.BindJSON(&newLoanTransaction); err != nil {
+			return
+		}
+
+		NewLoanTransaction(&newLoanTransaction)
+		c.IndentedJSON(http.StatusCreated, newLoanTransaction)
+	})
 
 	//new account
 	router.GET("menu/function3", func(c *gin.Context) {
@@ -78,11 +83,28 @@ func Menu() {
 		})
 	})
 
-	router.POST("/menu/function/set", func(c *gin.Context) {
+	router.POST("/menu/function3/set", func(c *gin.Context) {
 		if err := c.BindJSON(&newAccount); err != nil {
 			return
 		}
-		NewAccount(&newAccount)
+		//check errors
+		if err := NewAccount(&newAccount); err != 0 {
+			if err == 1 {
+				c.JSON(200, gin.H{
+					"message": "Cannot open database",
+				})
+			}
+			if err == 2 {
+				c.JSON(200, gin.H{
+					"message": "Cannot insert into database",
+				})
+			}
+			if err == 3 {
+				c.JSON(200, gin.H{
+					"message": "Cannot close database",
+				})
+			}
+		}
 		c.IndentedJSON(http.StatusCreated, newAccount)
 	})
 
@@ -92,7 +114,72 @@ func Menu() {
 			"message": "Welcome to the new loan menu ",
 		})
 	})
-	NewLoan()
+	router.POST("/menu/function4/set", func(c *gin.Context) {
+		if err := c.BindJSON(&newLoan); err != nil {
+			return
+		}
+
+		//set loan thinga
+		var interest float64
+		var total_amount float64
+		var term int64
+		var ampi float64
+
+		newLoan.Installments = newLoan.Term
+		interest = (newLoan.Amount * float64(term)) / 100
+		total_amount = newLoan.Amount + interest
+		ampi = total_amount / float64(newLoan.Installments)
+		newLoan.AmountPerInstallment = ampi
+
+		//check errors
+		if err := NewLoan(&newLoan); err != 0 {
+			if err == 1 {
+				c.JSON(200, gin.H{
+					"message": "Cannot open database",
+				})
+			}
+			if err == 2 {
+				c.JSON(200, gin.H{
+					"message": "Cannot insert into database",
+				})
+			}
+			if err == 3 {
+				c.JSON(200, gin.H{
+					"message": "Cannot close database",
+				})
+			}
+		}
+		c.IndentedJSON(http.StatusCreated, newLoan)
+	})
+
+	//display account
+	router.POST("menu/function5", func(c *gin.Context) {
+		if err := c.BindJSON(&login); err != nil {
+			return
+		}
+		if CheckLogin(&login) != 0 {
+			c.JSON(200, gin.H{
+				"message": "Login Successful",
+			})
+		} else {
+			c.JSON(200, gin.H{
+				"message": "Login Failed",
+			})
+			c.IndentedJSON(http.StatusCreated, login)
+		}
+
+		c.JSON(200, GetAccount(login.Id))
+
+	})
+
+	//display loan
+	router.POST("menu/function6", func(c *gin.Context) {
+		if err := c.BindJSON(&login); err != nil {
+			return
+		}
+
+		c.JSON(200, GetLoan(login.Id))
+	})
 
 	//thanks
 	router.GET("/menu/thanks", func(c *gin.Context) {
