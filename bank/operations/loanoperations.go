@@ -5,6 +5,8 @@ import (
 	en "github.com/main/bank/entity"
 )
 
+var ltcount int64 = 1
+
 func NewLoanTransaction(ltran *en.LoanTransaction) int {
 	//push to database
 	opts := &pg.Options{
@@ -19,6 +21,15 @@ func NewLoanTransaction(ltran *en.LoanTransaction) int {
 		return 1
 	}
 
+	ln := &en.Loan{LoanID: ltran.LoanID}
+	ln.GetByID(db)
+	ln.InstallmentsPayed += 1
+	ln.AmountPayed += ltran.Amount
+	ln.Update(db)
+
+	ltran.TransactionID = ltcount
+	ltran.Amount = ln.AmountPerInstallment
+	ltcount++
 	//insert into database
 	insertErr := db.Insert(ltran)
 	if insertErr != nil {
@@ -82,7 +93,7 @@ func GetLoan(id int64) en.Loan {
 
 }
 
-func GetLoanTransaction(id int64) []en.LoanTransaction {
+func GetLoanTransaction(id int64) interface{} {
 	opts := &pg.Options{
 		User:     "banker",
 		Password: "dhruv123",
@@ -92,11 +103,10 @@ func GetLoanTransaction(id int64) []en.LoanTransaction {
 
 	var db *pg.DB = pg.Connect(opts)
 
-	ltran := &en.LoanTransaction{LoanID: id}
-
-	ltran.GetByID(db)
+	var x []en.LoanTransaction
+	db.Model(&x).Where("loan_id = ?", id).Select()
 
 	db.Close()
 
-	return []en.LoanTransaction{*ltran}
+	return x
 }

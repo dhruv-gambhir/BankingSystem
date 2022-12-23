@@ -37,7 +37,7 @@ func Menu() {
 		})
 	})
 
-	router.POST("/menu/function1/login", func(c *gin.Context) {
+	router.POST("/menu/login", func(c *gin.Context) {
 		if err := c.BindJSON(&login); err != nil {
 			return
 		}
@@ -49,7 +49,7 @@ func Menu() {
 			c.JSON(200, gin.H{
 				"message": "Login Failed",
 			})
-			c.IndentedJSON(http.StatusCreated, login)
+			c.IndentedJSON(http.StatusOK, login)
 		}
 	})
 
@@ -119,17 +119,14 @@ func Menu() {
 			return
 		}
 
-		//set loan thinga
+		//set loan thing
 		var interest float64
 		var total_amount float64
-		var term int64
-		var ampi float64
 
 		newLoan.Installments = newLoan.Term
-		interest = (newLoan.Amount * float64(term)) / 100
+		interest = (newLoan.Amount * float64(newLoan.Term)) / 100
 		total_amount = newLoan.Amount + interest
-		ampi = total_amount / float64(newLoan.Installments)
-		newLoan.AmountPerInstallment = ampi
+		newLoan.AmountPerInstallment = total_amount / float64(newLoan.Term)
 
 		//check errors
 		if err := NewLoan(&newLoan); err != 0 {
@@ -207,7 +204,6 @@ func Menu() {
 		}
 
 		c.JSON(200, GetLoanTransaction(login.Id))
-
 	})
 
 	//thanks

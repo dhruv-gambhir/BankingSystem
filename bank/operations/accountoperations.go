@@ -8,6 +8,8 @@ import (
 	en "github.com/main/bank/entity"
 )
 
+var tcount int64 = 1
+
 func NewTransaction(tran *en.Transaction) {
 
 	//push to database
@@ -23,7 +25,6 @@ func NewTransaction(tran *en.Transaction) {
 		fmt.Println("Database connection failed")
 		os.Exit(100)
 	}
-	fmt.Println("Database connection successful")
 
 	if tran.Type == "credit" {
 		acc := &en.Account{ID: tran.ID}
@@ -38,6 +39,9 @@ func NewTransaction(tran *en.Transaction) {
 	}
 
 	//insert into database
+	tran.TransactionID = tcount
+	tcount++
+
 	insertErr := db.Insert(tran)
 	if insertErr != nil {
 		fmt.Println("Error inserting into table")
@@ -132,8 +136,7 @@ func GetAccount(id int64) en.Account {
 
 }
 
-/*
-func GetTransactions(id int64) []en.Transaction {
+func GetTransactions(id int64) interface{} {
 	opts := &pg.Options{
 		User:     "banker",
 		Password: "dhruv123",
@@ -143,32 +146,11 @@ func GetTransactions(id int64) []en.Transaction {
 
 	var db *pg.DB = pg.Connect(opts)
 
-	tran := &en.Transaction{ID: id}
-
-	tran.GetByID(db)
-
-	db.Close()
-
-	return []en.Transaction{*tran}
-}
-*/
-
-func GetTransactions(id int64) en.Transaction {
-
-	opts := &pg.Options{
-		User:     "banker",
-		Password: "dhruv123",
-		Database: "postgres",
-		Addr:     "localhost:5432",
-	}
-
-	var db *pg.DB = pg.Connect(opts)
-
-	newTran := en.Transaction{ID: id}
-	newTran.GetByID(db)
+	var x []en.Transaction
+	db.Model(&x).Where("id = ?", id).Select()
 
 	db.Close()
 
-	return newTran
+	return x
 
 }

@@ -43,7 +43,14 @@ func (x *Transaction) GetByID(db *pg.DB) {
 	if err != nil {
 		fmt.Println("Error getting transaction by ID")
 	}
-	fmt.Println("Transaction found for ID: ", x.ID)
+}
+
+func (x *Transaction) GetArrayBytID(db *pg.DB) {
+	var trans []Transaction
+	err := db.Model(&trans).Where("id = ?0", x.ID).Select()
+	if err != nil {
+		fmt.Println("Error getting transaction by account ID")
+	}
 }
 
 func (x *Transaction) Update(db *pg.DB) {
@@ -51,7 +58,6 @@ func (x *Transaction) Update(db *pg.DB) {
 	if err != nil {
 		fmt.Println("Error updating transaction")
 	}
-	fmt.Println("Transaction updated for ID: ", x.ID)
 }
 
 func (x *LoanTransaction) GetByID(db *pg.DB) {
@@ -59,7 +65,14 @@ func (x *LoanTransaction) GetByID(db *pg.DB) {
 	if err != nil {
 		fmt.Println("Error getting loan transaction by ID")
 	}
-	fmt.Println("Loan transaction found for ID: ", x.LoanID)
+}
+
+func (x *Transaction) GetLArrayBytID(db *pg.DB) {
+	var trans []LoanTransaction
+	err := db.Model(&trans).Where("id = ?0", x.ID).Select()
+	if err != nil {
+		fmt.Println("Error getting transaction by account ID")
+	}
 }
 
 func (x *LoanTransaction) Update(db *pg.DB) {
