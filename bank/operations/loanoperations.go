@@ -5,6 +5,7 @@ import (
 	"math/rand"
 	"os"
 
+	"github.com/gin-gonic/gin"
 	pg "github.com/go-pg/pg"
 	en "github.com/main/bank/entity"
 )
@@ -46,6 +47,15 @@ func ManageLoan() {
 }
 
 func NewLoan() {
+
+	router := gin.Default()
+	router.GET("/function", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "Welcome to the loan application menu \n Please enter the amount you would like to borrow \n Please enter the term of the loan in months",
+		})
+	})
+
+	router.Run(":8080")
 
 	var interest float64
 	var amount float64

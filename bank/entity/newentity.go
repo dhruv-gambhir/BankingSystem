@@ -11,7 +11,7 @@ func NewAccountTable(db *pg.DB) {
 	opts := &orm.CreateTableOptions{
 		IfNotExists: true,
 	}
-	createErr := db.CreateTable(&account{}, opts)
+	createErr := db.CreateTable(&Account{}, opts)
 	if createErr != nil {
 		fmt.Println("Error creating table")
 	}
@@ -21,7 +21,7 @@ func NewLoanTable(db *pg.DB) {
 	opts := &orm.CreateTableOptions{
 		IfNotExists: true,
 	}
-	createErr := db.CreateTable(&loan{}, opts)
+	createErr := db.CreateTable(&Loan{}, opts)
 	if createErr != nil {
 		fmt.Println("Error creating table")
 	}
@@ -32,7 +32,7 @@ func NewTransactionTable(db *pg.DB) {
 	opts := &orm.CreateTableOptions{
 		IfNotExists: true,
 	}
-	createErr := db.CreateTable(&transaction{}, opts)
+	createErr := db.CreateTable(&Transaction{}, opts)
 	if createErr != nil {
 		fmt.Println("Error creating table")
 	}
@@ -42,7 +42,7 @@ func NewLoanTransactionTable(db *pg.DB) {
 	opts := &orm.CreateTableOptions{
 		IfNotExists: true,
 	}
-	createErr := db.CreateTable(&loan_transaction{}, opts)
+	createErr := db.CreateTable(&LoanTransaction{}, opts)
 	if createErr != nil {
 		fmt.Println("Error creating table")
 	}
@@ -50,7 +50,7 @@ func NewLoanTransactionTable(db *pg.DB) {
 }
 
 func NewAccount(db *pg.DB, accountID int64, pin int64, name string, balance float64, bank string, branch string) {
-	var acc account
+	var acc Account
 	acc.ID = accountID
 	acc.Pin = pin
 	acc.Balance = balance
@@ -66,7 +66,7 @@ func NewAccount(db *pg.DB, accountID int64, pin int64, name string, balance floa
 }
 
 func NewLoan(db *pg.DB, loanID int64, amount float64, term int64, ampi float64, installments int64) {
-	var loan loan
+	var loan Loan
 	loan.LoanID = loanID
 	loan.Amount = amount
 	loan.Term = term
@@ -84,7 +84,7 @@ func NewLoan(db *pg.DB, loanID int64, amount float64, term int64, ampi float64, 
 }
 
 func NewTransaction(db *pg.DB, transactionID int64, amount float64, accountID int64) {
-	var transaction transaction
+	var transaction Transaction
 	transaction.ID = transactionID
 	transaction.Amount = amount
 	transaction.ID = accountID
@@ -97,7 +97,7 @@ func NewTransaction(db *pg.DB, transactionID int64, amount float64, accountID in
 }
 
 func NewLoanTransaction(db *pg.DB, installments int64, amount float64, loanID int64) {
-	var transaction loan_transaction
+	var transaction LoanTransaction
 	transaction.Installments = installments
 	transaction.Amount = amount
 	transaction.LoanID = loanID

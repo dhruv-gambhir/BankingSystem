@@ -1,6 +1,6 @@
 package entity
 
-type account struct {
+type Account struct {
 	tablename struct{} `sql:"accounts"`
 	Bank      string   `json:"bank" sql:"bank"`
 	Branch    string   `json:"branch" sql:"branch"`
@@ -10,7 +10,7 @@ type account struct {
 	Balance   float64  `json:"balance" sql:"balance"`
 }
 
-type loan struct {
+type Loan struct {
 	tablename            struct{} `sql:"loans"`
 	LoanID               int64    `json:"id" sql:"id"`
 	Amount               float64  `json:"amount" sql:"amount"`
@@ -21,14 +21,14 @@ type loan struct {
 	InstallmentsPayed    int64    `json:"installments_payed" sql:"installments_payed"`
 }
 
-type transaction struct {
+type Transaction struct {
 	tablename struct{} `sql:"transactions"`
 	ID        int64    `json:"id" sql:"id"`
 	Amount    float64  `json:"amount" sql:"amount"`
 	Type      string   `json:"type" sql:"type"`
 }
 
-type loan_transaction struct {
+type LoanTransaction struct {
 	tablename    struct{} `sql:"loan_transactions"`
 	Amount       float64  `json:"amount" sql:"amount"`
 	LoanID       int64    `json:"loan_id" sql:"loan_id"`
