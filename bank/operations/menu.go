@@ -25,7 +25,7 @@ func Menu() {
 
 	router.GET("/menu", func(c *gin.Context) {
 		c.JSON(200, gin.H{
-			"message": "Welcome to DiGi Bank \n What would you like to do? \n 1. Manage Account \n 2. Manage Loan \n 3. New Account \n 4. New Loan",
+			"message": "Welcome to DiGi Bank \n What would you like to do? \n 1. Transaction \n 2. Loan Transaction \n 3. New Account \n 4. New Loan \n 5. Display Account \n 6. Display Loan \n 7. Account Statement \n 8. Loan Statement",
 		})
 	})
 
@@ -61,7 +61,7 @@ func Menu() {
 		c.IndentedJSON(http.StatusCreated, newTransaction)
 	})
 
-	//manage loan
+	//new loan transaction
 	router.GET("menu/function2", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "Welcome to the new loan transaction menu ",
@@ -179,6 +179,35 @@ func Menu() {
 		}
 
 		c.JSON(200, GetLoan(login.Id))
+	})
+
+	//display account transactions
+	router.POST("menu/function7", func(c *gin.Context) {
+		if err := c.BindJSON(&login); err != nil {
+			return
+		}
+		if CheckLogin(&login) != 0 {
+			c.JSON(200, gin.H{
+				"message": "Login Successful",
+			})
+		} else {
+			c.JSON(200, gin.H{
+				"message": "Login Failed",
+			})
+			c.IndentedJSON(http.StatusCreated, login)
+		}
+
+		c.JSON(200, GetTransactions(login.Id))
+	})
+
+	//display loan transactions
+	router.POST("menu/function8", func(c *gin.Context) {
+		if err := c.BindJSON(&login); err != nil {
+			return
+		}
+
+		c.JSON(200, GetLoanTransaction(login.Id))
+
 	})
 
 	//thanks

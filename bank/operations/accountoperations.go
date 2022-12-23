@@ -131,3 +131,44 @@ func GetAccount(id int64) en.Account {
 	return *acc
 
 }
+
+/*
+func GetTransactions(id int64) []en.Transaction {
+	opts := &pg.Options{
+		User:     "banker",
+		Password: "dhruv123",
+		Database: "postgres",
+		Addr:     "localhost:5432",
+	}
+
+	var db *pg.DB = pg.Connect(opts)
+
+	tran := &en.Transaction{ID: id}
+
+	tran.GetByID(db)
+
+	db.Close()
+
+	return []en.Transaction{*tran}
+}
+*/
+
+func GetTransactions(id int64) en.Transaction {
+
+	opts := &pg.Options{
+		User:     "banker",
+		Password: "dhruv123",
+		Database: "postgres",
+		Addr:     "localhost:5432",
+	}
+
+	var db *pg.DB = pg.Connect(opts)
+
+	newTran := en.Transaction{ID: id}
+	newTran.GetByID(db)
+
+	db.Close()
+
+	return newTran
+
+}

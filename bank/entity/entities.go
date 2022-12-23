@@ -22,15 +22,17 @@ type Loan struct {
 }
 
 type Transaction struct {
-	tablename struct{} `sql:"transactions"`
-	ID        int64    `json:"id" sql:"id"`
-	Amount    float64  `json:"amount" sql:"amount"`
-	Type      string   `json:"type" sql:"type"`
+	tablename     struct{} `sql:"transactions"`
+	TransactionID int64    `json:"tid" sql:"tid", pk`
+	ID            int64    `json:"id" sql:"id"`
+	Amount        float64  `json:"amount" sql:"amount"`
+	Type          string   `json:"type" sql:"type"`
 }
 
 type LoanTransaction struct {
-	tablename    struct{} `sql:"loan_transactions"`
-	Amount       float64  `json:"amount" sql:"amount"`
-	LoanID       int64    `json:"loan_id" sql:"loan_id"`
-	Installments int64    `json:"installment" sql:"installment"`
+	tablename     struct{} `sql:"loan_transactions"`
+	TransactionID int64    `json:"tid" sql:"tid", pk`
+	Amount        float64  `json:"amount" sql:"amount"`
+	LoanID        int64    `json:"loan_id" sql:"loan_id"`
+	Installments  int64    `json:"installment" sql:"installment"`
 }

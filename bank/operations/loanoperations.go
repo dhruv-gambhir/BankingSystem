@@ -35,19 +35,6 @@ func NewLoanTransaction(ltran *en.LoanTransaction) int {
 
 func NewLoan(loan *en.Loan) int {
 
-	/*
-		var interest float64
-		var amount float64
-		var total_amount float64
-		var installments int64
-		var term int64
-
-		loan.Installments = loan.Term
-		interest = (amount * float64(term)) / 100
-		total_amount = amount + interest
-		loan.AmountPerInstallment = total_amount / float64(installments)
-	*/
-
 	//connect to database
 	opts := &pg.Options{
 		User:     "banker",
@@ -93,4 +80,23 @@ func GetLoan(id int64) en.Loan {
 
 	return *ln
 
+}
+
+func GetLoanTransaction(id int64) []en.LoanTransaction {
+	opts := &pg.Options{
+		User:     "banker",
+		Password: "dhruv123",
+		Database: "postgres",
+		Addr:     "localhost:5432",
+	}
+
+	var db *pg.DB = pg.Connect(opts)
+
+	ltran := &en.LoanTransaction{LoanID: id}
+
+	ltran.GetByID(db)
+
+	db.Close()
+
+	return []en.LoanTransaction{*ltran}
 }
