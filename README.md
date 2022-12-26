@@ -13,7 +13,7 @@ Features:
 - Take a Loan
 - Pay Loan Instalments
 - Check Loan Details
-- Check Loan Payment History
+- Check Loan History
 
 
 <img width="584" alt="Screenshot 2022-12-26 at 10 49 38 AM" src="https://user-images.githubusercontent.com/75164918/209505067-56ee4020-85fa-4c92-8212-465f15830dee.png">
