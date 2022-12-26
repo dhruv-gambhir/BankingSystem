@@ -15,4 +15,5 @@ Features:
 - Check Loan Details
 - Check Loan Payment History
 
-<img width="639" alt="Screenshot 2022-12-24 at 12 35 40 AM" src="https://user-images.githubusercontent.com/75164918/209395389-4594ce36-c9e5-4bbd-bb3b-c6e1b37258b6.png">
+
+<img width="584" alt="Screenshot 2022-12-26 at 10 49 38 AM" src="https://user-images.githubusercontent.com/75164918/209505067-56ee4020-85fa-4c92-8212-465f15830dee.png">
